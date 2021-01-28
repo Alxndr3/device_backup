@@ -1,0 +1,10 @@
+# Default ignored files
+*.db
+*.txt
+.idea/
+/shelf/
+/workspace.xml
+__pycache__/
+venv/
+log/
+database/
