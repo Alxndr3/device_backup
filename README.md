@@ -1,1 +1,1 @@
-device_backup - saves Fortigate firewall and HP Comware configureation files, verifies diferences between previous and current saved files, generates reports with those and sends an e-mail with those reports in case diferences were found.
+device_backup - saves Fortigate firewall and HP Comware configuration files, verifies diferences between previous and current saved files, generates reports with those and sends an e-mail with those reports in case diferences were found.
