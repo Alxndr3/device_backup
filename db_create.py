@@ -1,5 +1,6 @@
 #! /bin/env python3
 import getpass
+import re
 import shelve
 import subprocess
 from lib import *
@@ -26,7 +27,14 @@ def db_list():
 
 # Insert a new device to database.
 def insert_device():
+    # Regular expression to validate IPv4.
+    ip_address_regex = re.compile(r'^(25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)\.'
+                                    '(25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)\.'
+                                    '(25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)\.'
+                                    '(25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)$')
+
     subprocess.run(['clear'])
+
     while True:
         draw_header('Insert Device')
         device = ['Firewall', 'Switch', 'Quit']
@@ -34,17 +42,24 @@ def insert_device():
         new_device = list()
         if option == 1 or option == 2:
             hostname = str(input('Hostname: '))
-            new_device.append(str(input('IP Address: ')))
-            new_device.append(str(input('Username: ')))
-            new_device.append(getpass.getpass('Password: '))
-            with shelve.open(device[option - 1].lower(), 'c',  writeback=True) as device_shelf:
-                if len(list(device_shelf)) < 1:
-                    device_shelf[hostname] = new_device
-                else:
-                    device_shelf[hostname] = new_device
+            device_ip_addr = str(input('IP Address: '))
+            device_match_obj = ip_address_regex.search(device_ip_addr)
+            # If inserted IP address is valid shelve object is created
+            if device_match_obj:
+                new_device.append(device_match_obj.group())
+                new_device.append(str(input('Username: ')))
+                new_device.append(getpass.getpass('Password: '))
+                with shelve.open(device[option - 1].lower(), 'c',  writeback=True) as device_shelf:
+                    if len(list(device_shelf)) < 1:
+                        device_shelf[hostname] = new_device
+                    else:
+                        device_shelf[hostname] = new_device
+            else:
+                print('\nIpv4 address not valid\n')
         else:
             print("Good Bye")
             break
+        print('\n' + '\033[93m' + 'New device ready' + '\033[0m' + '\n')
 
 
 # Delete device from database.
@@ -62,4 +77,6 @@ def delete_device():
             print("Good Bye")
             break
 
-#db_list()
+# db_list()
+# insert_device()
+
