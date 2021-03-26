@@ -29,6 +29,7 @@ while True:
         delete_device()
 
     elif opt == 3:
+        subprocess.run(['clear'])
         db_list()
 
     elif opt == 4:
