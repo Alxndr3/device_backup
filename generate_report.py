@@ -40,7 +40,11 @@ def generate_diff_report():  # report_dir):
 def run_report():
     with shelve.open('db_path') as db:
         for path in db.values():
-            os.chdir(path)
+            try:
+                os.chdir(path)
+            except FileNotFoundError:
+                continue
+
             for directory in os.listdir():
                 logging.error(directory)
                 if not os.path.isdir(directory) or directory.startswith('.'):
@@ -68,5 +72,5 @@ def run_report():
                         os.rename('difference_report.html', 'difference_report_' + str(date.today()) + '.html')
                     os.chdir('..')
 
-#run_report()
+# run_report()
 

@@ -79,4 +79,5 @@ def delete_device():
 
 # db_list()
 # insert_device()
+# delete_device()
 

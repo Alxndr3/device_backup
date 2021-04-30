@@ -12,7 +12,18 @@ logging.basicConfig(filename=f'./log/{date.today}_error.log',
 
 
 def backup_switches():
+
+    with shelve.open('db_path', 'c') as db:
+        try:
+            value = db['switch']
+            return True
+        except KeyError:
+            print('Please, define a directory to save configuration files.')
+            set_directory.set_directory()
+            return False
+
     path = set_directory.get_path('switch')
+
     with shelve.open('switch', 'c') as sw_shelf:
         for key, switch in sw_shelf.items():
             client = paramiko.client.SSHClient()
@@ -36,4 +47,4 @@ def backup_switches():
             print('Done')
 
 
-# backup_switches()
+backup_switches()

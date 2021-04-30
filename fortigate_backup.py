@@ -7,11 +7,18 @@ import shelve
 from datetime import date
 from scp import SCPClient
 
-logging.basicConfig(filename=f'./log/{date.today()}_error.log', level=logging.ERROR, format='%(asctime)s - %(levelname)s - %(message)s')
-
+#logging.basicConfig(filename=f'./log/{date.today()}_error.log', level=logging.ERROR, format='%(asctime)s - %(levelname)s - %(message)s')
 
 def backup_firewall():
-    path = set_directory.get_path('firewall')
+    with shelve.open('db_path', 'c') as db:
+        try:
+            value = db['firewall']
+        except KeyError:
+            print('Please, define a directory to save configuration files.')
+            set_directory.set_directory()
+            return False
+
+        print("aqui")
 
     with shelve.open('firewall', 'c') as fw_shelf:
         for key, firewall in fw_shelf.items():
@@ -42,4 +49,4 @@ def backup_firewall():
 
             print('Done')
 
-# backup_firewall
+# backup_firewall()

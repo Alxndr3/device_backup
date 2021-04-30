@@ -12,7 +12,7 @@ logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %
 
 def send_email():
     # print('starting send_email()')
-    os.chdir('/home/alexandre/PycharmProjects/device_backup')
+    # os.chdir('/home/alexandre/')
     # print(os.getcwd())
     # Retrieve email address and password from environment variables.
     EMAIL_ADDRESS = os.environ.get("EMAIL_ADDRESS")
@@ -20,7 +20,11 @@ def send_email():
 
     with shelve.open('db_path', 'c') as db:
         for directory in db.values():
-            os.chdir(directory)
+            try:
+                os.chdir(directory)
+            except FileNotFoundError:
+                continue
+
             for sub_dir in os.listdir():
                 logging.debug(sub_dir)
                 if os.path.isfile(sub_dir):
@@ -58,5 +62,4 @@ def send_email():
                 os.chdir('..')
                 logging.debug(os.getcwd())
 
-
-
+# send_email()
