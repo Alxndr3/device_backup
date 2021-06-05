@@ -15,10 +15,12 @@ def db_list():
         option = print_menu(device)
         if option == 1 or option == 2:
             with shelve.open(device[option - 1].lower(), 'c') as device_shelf:
+                subprocess.run(['clear'])
                 print(f'{"Hostname --------- ":<12}{"IP --------- ":<13}{"User --------- ":<12}')
                 for key, value in list(device_shelf.items()):
                     print(f'{key:<18}{value[0]:<14}{value[1]:<12}')
-            print(print_line())
+                print_line()
+
             continue
         else:
             print("Good Bye")
@@ -55,7 +57,7 @@ def insert_device():
                     else:
                         device_shelf[hostname] = new_device
             else:
-                print('\nIpv4 address not valid\n')
+                print('\nNot a valid IP address.\n')
         else:
             print("Good Bye")
             break

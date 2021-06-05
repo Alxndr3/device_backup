@@ -1,15 +1,17 @@
 #! /bin/env python3
 from db_create import *
 from lib import *
+from send_email import send_email
 from generate_report import run_report
 from fortigate_backup import backup_firewall
 from set_directory import set_directory
 from set_directory import get_path
-from send_email import send_email
 from switches_backup import backup_switches
 import subprocess
 import shelve
 import scheduler
+import os
+from time import sleep
 
 
 while True:
@@ -20,7 +22,7 @@ while True:
                       'List Devices',
                       'Schedule Job',
                       'Save to',
-                      'Run Now',
+                      'Run',
                       'Quit'])
     if opt == 1:
         insert_device()
@@ -77,10 +79,14 @@ while True:
                 print('Please, Hang On')
                 send_email()
             elif run_job == 5:
+                base_dir = os.getcwd()
                 print('Please, Hang On')
                 backup_firewall()
                 backup_switches()
+                print('Generating reports')
                 run_report()
+                os.chdir(base_dir)
+                print('Sending reports')
                 send_email()
             else:
                 break

@@ -19,8 +19,8 @@ def backup_switches():
             return True
         except KeyError:
             print('Please, define a directory to save configuration files.')
-            set_directory.set_directory()
-            return False
+#            set_directory.set_directory()
+#            return False
 
     path = set_directory.get_path('switch')
 
@@ -47,4 +47,4 @@ def backup_switches():
             print('Done')
 
 
-backup_switches()
+# backup_switches()

@@ -6,13 +6,13 @@ import smtplib
 from datetime import date
 from email.message import EmailMessage
 
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+# logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 # logging.disable(level=logging.CRITICAL)
 
 
 def send_email():
     # print('starting send_email()')
-    # os.chdir('/home/alexandre/')
+    os.chdir('/home/alexandre/Projects/device_backup')
     # print(os.getcwd())
     # Retrieve email address and password from environment variables.
     EMAIL_ADDRESS = os.environ.get("EMAIL_ADDRESS")
@@ -48,6 +48,7 @@ def send_email():
                             with open(report, 'rb') as f:
                                 attachment = f.read()
                                 attachment_name = f.name
+                                logging.debug('1 2 3 testando')
 
                             # Add attachment to email message.
                             msg.add_attachment(attachment, maintype='application', subtype='octet-stream', filename=attachment_name)

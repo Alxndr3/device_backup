@@ -2,6 +2,7 @@ import schedule
 import shelve
 import time
 import send_email
+import os
 from datetime import datetime, timedelta
 from fortigate_backup import backup_firewall
 from generate_report import run_report
@@ -20,11 +21,13 @@ def get_time():
 # schedule_job()
 run_time_1 = get_time()[0]
 run_time_2 = get_time()[1]
+base_dir = os.getcwd()
 # print(run_time_1, run_time_2)
 #
 schedule.every().day.at(run_time_1).do(backup_firewall)
 schedule.every().day.at(run_time_1).do(backup_switches)
 schedule.every().day.at(run_time_1).do(run_report)
+#schedule.every().day.at(run_time_1).do(os.chdir(base_dir)
 schedule.every().day.at(run_time_1).do(send_email.send_email)
 
 while True:

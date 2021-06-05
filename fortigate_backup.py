@@ -15,8 +15,8 @@ def backup_firewall():
             value = db['firewall']
         except KeyError:
             print('Please, define a directory to save configuration files.')
-            set_directory.set_directory()
-            return False
+#            set_directory.set_directory()
+#            return False
 
         print("aqui")
 
